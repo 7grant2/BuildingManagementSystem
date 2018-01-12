@@ -1,0 +1,12 @@
+<?php
+
+$dbServername = "localhost";
+$dbUsername = "root";
+$dbPassword = "root";
+$dbName = "bms";
+
+$conn = mysqli_connect($dbServername,$dbUsername, $dbPassword, $dbName);
+if(!$conn){
+    echo "Error: Connection Failed.";
+}
+?>

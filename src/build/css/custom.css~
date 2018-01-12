@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Bellefair|Open+Sans');
+
+.fancy-h{
+    font-family: 'Bellefair', serif;
+}
+
+.fancy-p{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.imgfit {
+    max-height: 40px;
+    max-width: 40px;
+    margin-top: -10px;
+}
+
+body {
+    background-color: #8a6c53;
+
+}
+
+.btn-pad{
+    margin-top: 6px;
+    margin-left: -6px;
+    margin-right: -6px;
+}
+
+.jumbotron {
+    background-color: #ad9075;
+}
+
+.nav-color {
+    background-color: #32303b;
+    border-color: #333;
+    border-radius: 0px;
+}
+
+.act {
+    background-color: #6a6775;
+    color: black;
+}
+
+
+.btn-info {
+    color: #ddd;
+    background-color:#4b5a7d;
+    border-color: #3d4863;
+    
+}
+
+.btn-info:hover {
+    background-color: #2a3245;
+    border-color: #262d3d;
+}
+
+.field-color {
+    background-color: #eee;
+}
+
+.footer-color {
+    background-color: #793234;
+}
