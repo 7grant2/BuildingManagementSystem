@@ -32,6 +32,10 @@ body,html {
     margin-right: -6px;
 }
 
+.btn-link{
+    color: red;
+}
+
 .jumbotron {
     background-color: #ad9075;
 
@@ -41,8 +45,38 @@ body,html {
     background-color: #32303b;
     border-color: #333;
     border-radius: 0px;
-
 }
+
+
+
+.navbar-default .navbar-nav > li > a {
+  color: #777;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+
+
+.navbar-default .navbar-nav > li > form > .btn-link:hover ,
+.navbar-default .navbar-nav > li > form >  .btn-link:hover{
+  color: #ccc;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+
 
 .act {
     background-color: #6a6775;
@@ -56,6 +90,7 @@ body,html {
     border-color: #3d4863;
     
 }
+
 
 .btn-info:hover {
     background-color: #2a3245;
