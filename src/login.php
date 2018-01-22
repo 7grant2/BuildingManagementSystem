@@ -6,7 +6,7 @@
 ?>
 
     <div class="jumbotron">
-      <div class="row text-center">
+      <div class="row text-center fancy-h">
 	  <h1>Building Management System</h1>
 	  </div>
     </div>
@@ -14,8 +14,8 @@
     <div class="jumbotron">
       <div class="row justify-content-center">
 	<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-6 col-xs-offset-3">
-	  <div class="text-center">
-	    <h2>login</h2>
+	  <div class="text-center fancy-p">
+	    <h2>LOGIN</h2>
 	  </div>
 	     <form class="form-group" action="includes/login.inc.php" name="submit" method="POST">
 	       <input class="form-control search-query d-flex field-color" name="uid" type="text" placeholder="Username">

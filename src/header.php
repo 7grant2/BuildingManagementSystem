@@ -19,23 +19,21 @@ session_start();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
 	  </button>
-	  <a class="navbar-brand" href="#"><img class="img-responsive imgfit" src="img/bms.png"/></a>
+	  <a class="navbar-brand" href="#"><img class="img-responsive imgfit " src="img/bms.png"/></a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	  <ul class="nav navbar-nav">
-    <li><a href='index.php'>Home</a></li>	    
+	    <li><a  href='index.php'>Home</a></li>	    
 	    <?php
     if (!isset($_SESSION['u_id'])) {
     } else {
-              echo "<li><a href='monitor.php'>Monitor</a></li>";
-	      echo "tet";
-        
+              echo "<li><a href='monitor.php'>Monitor</a></li>";        
     }
-?>
+	      ?>
+			
 	  </ul>
-
 	  <ul class="nav navbar-nav navbar-right">
 	    <?php
     if (isset($_SESSION['u_id'])) {
@@ -43,7 +41,7 @@ session_start();
 
         echo "<li>
 	      <form class='btn btn-pad' action='includes/logout.inc.php' name='submit' method='POST'>
-		<button type='submit' name='submit' class='btn-link'>Logout</button>
+		<button type='submit' name='submit'  class='btn-link'>Logout</button>
 	      </form>
 	    </li>";
     } else {

@@ -1,17 +1,31 @@
 @import url('https://fonts.googleapis.com/css?family=Bellefair|Open+Sans');
 
 h1 {
-    color: #f5f3e0;
+    color: #eff3e9;
 }
 
 .fancy-h{
     font-family: 'Bellefair', serif;
-    color: #e8dec1;
+    color: #fffff9;
 }
 
 .fancy-p{
     font-family: 'Open Sans', sans-serif;
-    color: #e8dec1;
+    color: #fffff9;
+}
+
+.fancy-c{
+    font-family: 'Open Sans', sans-serif;
+    color: #ccccc9;
+}
+
+.fancy-c > h2{
+    font-family: 'Bellefair', serif;    
+    color: #8c9eda;
+}
+
+.fancy-c > .panel-heading {
+    color: #708090;
 }
 
 .imgfit {
@@ -21,7 +35,7 @@ h1 {
 }
 
 body,html {
-    background-color: #8a6c53;
+    background-color: #536878;
     padding-bottom: 70px;
     height: 100%;
 }
@@ -32,8 +46,12 @@ body,html {
     margin-right: -6px;
 }
 
+.btn-link{
+    color: red;
+}
+
 .jumbotron {
-    background-color: #ad9075;
+    background-color: #36454f;
 
 }
 
@@ -41,11 +59,41 @@ body,html {
     background-color: #32303b;
     border-color: #333;
     border-radius: 0px;
-
 }
 
+
+
+.navbar-default .navbar-nav > li > a {
+  color: #777;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+
+
+.navbar-default .navbar-nav > li > form > .btn-link:hover ,
+.navbar-default .navbar-nav > li > form >  .btn-link:hover{
+  color: #ccc;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+
+
 .act {
-    background-color: #6a6775;
+    background-color: #;
     color: black;
 }
 
@@ -57,8 +105,9 @@ body,html {
     
 }
 
+
 .btn-info:hover {
-    background-color: #2a3245;
+    background-color: #5a6295;
     border-color: #262d3d;
 }
 

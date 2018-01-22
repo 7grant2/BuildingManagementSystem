@@ -34,7 +34,7 @@ include_once 'header.php';
   } else {
    echo "
     <div class='jumbotron'>
-      <div class='row text-center'>
+      <div class='row text-center fancy-h'>
 	  <h1>Dashboard</h1>
 	  </div>
     </div>

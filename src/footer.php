@@ -1,5 +1,5 @@
 
-<script src="js/bootstrap.min.js"/>
-  <script src="js/bootstrap.js"/>
+<script src="js/jQuery-3.2.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
