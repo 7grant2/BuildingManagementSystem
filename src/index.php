@@ -1,3 +1,4 @@
+
 <?php
 include_once 'header.php';
 
@@ -36,6 +37,7 @@ include_once 'header.php';
     <div class='jumbotron'>
       <div class='row text-center fancy-h'>
 	  <h1>Dashboard</h1>
+      <p>INSERT BASIC STATISTICS HERE</p>
 	  </div>
     </div>
 ";

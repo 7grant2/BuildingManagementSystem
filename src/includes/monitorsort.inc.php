@@ -59,46 +59,45 @@ function displayData($conn, $uid) {
         //GET FLOOR THEN ROOM
         foreach ($floor as $fkey => $fvalue) {
             //GET ROOMS
-            $room = array();
             $sql = "SELECT * FROM room WHERE floor_id=$fkey;";
             $result = sqlChecker($sql, $conn);
             if($result != false) {
                 while ($row = mysqli_fetch_array($result)){
                     $room[$row[room_id]] = array (
                         $row[room_name],
-                        $row[room_num]);
+                        $row[room_num],
+                        array() );
                 }
             } else {
                 echo "Something went wrong with Rooms!";
             }
+
             //SET FLOOR TO NAME OR FLOOR NUMBER
             if($fvalue[0] != "") {$floorprint = $fvalue[0];}
             else {$floorprint = $fvalue[1];}
             //CREATE TABLE FOR EACH FLOOR PER ROOM
+
+
+
+
+
+
+            
             foreach ($room as $rkey => $rvalue) {
                 //SET ROOM TO NAME OR ROOM NUMBER
                 if($rvalue[0] != "") {$roomprint = $rvalue[0];}
                 else {$roomprint = $rvalue[1];}                
                 if($rvalue == "") {$rvalue = $rkey;}
-                    echo "<div class='panel-heading'>Floor: $floorprint<br>Room: $roomprint</div>";
-                echo "<table class='table'>";
-                echo"
-                <thead>
-                 <tr>
-                   <th>Sensor Name</th>
-                   <th>Sensor ID</th>
-                   <th>Value</th>
-                   <th>Date</th>
-                   <th>Time</th>
-                </tr>
-                </thead>";
                 //GET SENSOR PER ROOM
                 $sensor = array();
                 $sql = "SELECT * FROM sensor WHERE room_id=$rkey;";
                 $result = sqlChecker($sql, $conn);
                 if($result != false) {
                     while ($row = mysqli_fetch_array($result)){
-                        $sensor[$row[sensor_id]] = $row[sensor_type];
+                        $sensor[$rvalue] = array(
+                            $row[sensor_type],
+                            array());
+                        $room[$rkey][2] = $sensor[$row[sensor_id]];
                     }
                 } else {
                     echo "Something went wrong with Sensors!";
@@ -117,34 +116,84 @@ function displayData($conn, $uid) {
                                 $row[reading_value],
                                 $row[reading_date],
                                 $row[reading_time]);
+                            $room[$rkey][2] = $reading[$svalue];
+                            $room[$rkey][3] = $svalue;
+                            
                         }
                     } else {
                         echo "Something went wrong with readings sensor values<br>";
                     }
-                    echo "<tbody>";
-                    //LOOP THROUGH EACH SENSOR WITH READING VALUES FOR TABLE
-                    foreach ($reading as $rkey => $rval){
-                        echo "<tr>";
-                        echo "<th scope='row'>$rkey</th>";
-                            foreach($rval as $key => $value){
-                                echo "<td>$value</td>";
-                            }
-                        echo "</tr>";
+                    
+                    //end of sensor loop
+                }
+  
 
 
+
+
+                }
+           
+            //sort rooms here by -1
+            //  print $rkey;
+            
+            //loop through each room 
+            foreach($room as $rkey => $rvalue) {
+                //loop thorugh each sensor
+                foreach($rvalue as $rkey => $rvalue) {
+                    //if sensor type is capacity
+                    if($rvalue[0] == "CAPACITY"){
+                        //store value and compare to next room
+                        
+                        
                     }
-                    echo "</tbody>";
-                }            
-                echo "</table>";
+                }
+                //check sensors here
+                $temp = $rkey;
             }
 
+            //end of room loop
+            }
+
+            foreach ($room as $rkey => $rvalue) {
+                if($rvalue[0] != "") {$roomprint = $rvalue[0];}
+                else {$roomprint = $rvalue[1];}                
+                if($rvalue == "") {$rvalue = $rkey;}
+                echo "<div class='panel-heading'>Floor: $floorprint<br>Room: $roomprint</div>";
+                echo "<table class='table'>";
+                echo"
+                <thead>
+                 <tr>
+                   <th>Sensor Name</th>
+                   <th>Sensor ID</th>
+                   <th>Value</th>
+                   <th>Date</th>
+                   <th>Time</th>
+                </tr>
+                </thead>";
+
+                echo "<tbody>";
+                    echo "<tr>";
+                    echo "<th scope='row'>$rvalue[3]</th>";
+                    foreach ($rvalue[2] as $rkey => $rvalue){
+                        echo  "<td>$rvalue</td>";
+                    }
+                    /**
+                    for(int i = 1; i < 4; i++){
+                        echo "<td>$rvalue[1]</td>";
+                        }*/
+
+                echo "</tbody>";
+                echo "</table>";
+                
+            //end of floor loop
         }
+    
                     echo "</div>";
         echo "</div>";
         echo "</div>";
-
+        //end of building loop
     }
- 
+    //end of function
 }
 
 //displayData(3);
@@ -161,5 +210,3 @@ if(isset($_SESSION['u_id'])) {
 }
 
 ?>
-
-
