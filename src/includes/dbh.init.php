@@ -1,6 +1,12 @@
 // root / root /   grantjr7@gmail.com
 // asdf / asdf /   glanham2015@gmail.com
 // CHANGE ID FOR INSERT STATEMENTS UPON REVIEW
+$dbhost = 'localhost';  // Most likely will not need to be changed
+$dbname = 'glanham2015';   // Needs to be changed to your designated table database name
+$dbuser = 'glanham2015';   // Needs to be changed to reflect your LAMP server credentials
+$dbpass = 'hbnuAQ8+o7'; // Needs to be changed to reflect your LAMP server credentials
+
+
 
 
 CREATE DATABASE bms;
@@ -33,6 +39,7 @@ CREATE TABLE floor(
 CREATE TABLE room (
     room_id int(11)  NOT NULL AUTO_INCREMENT PRIMARY KEY,
     room_name varchar(70),
+    room_num int(11),
     floor_id int(11) NOT NULL,
     FOREIGN KEY (floor_id) REFERENCES floor(floor_id)    
 );
@@ -42,6 +49,7 @@ CREATE TABLE sensor (
     sensor_id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     sensor_type varchar(60) NOT NULL,
     room_id int(11) NOT NULL,
+    sensor_name VARCHAR(30) NOT NULL,
     FOREIGN KEY (room_id) REFERENCES room (room_id)
 );
 
@@ -54,62 +62,64 @@ CREATE TABLE reading (
 );
 
 //change user_id
-INSERT INTO building(building_name, user_id) VALUES ("NURSING HOME", 24);
-INSERT INTO building(building_name, user_id) VALUES ("SCHOOL", 25);
-INSERT INTO building(building_name, user_id) VALUES ("HOME", 25);
+INSERT INTO building(building_name, user_id) VALUES ('NURSING HOME', 1);
+INSERT INTO building(building_name, user_id) VALUES ('SCHOOL', 2);
+INSERT INTO building(building_name, user_id) VALUES ('HOME', 2);
 
 //change building id
-INSERT INTO floor(floor_name, building_id, floor_num) VALUES ("LIVING QUARTERS", 3, 1);
-INSERT INTO floor(floor_name, building_id, floor_num) VALUES ("LIVING QUARTERS", 4, 1);
-INSERT INTO floor(floor_name, building_id, floor_num) VALUES ("SUPPLIES", 5, 1);
-INSERT INTO floor(building_id) VALUES (5, 2);
+INSERT INTO floor(floor_name, building_id, floor_num) VALUES ('LIVING QUARTERS', 1, 1);
+INSERT INTO floor(floor_name, building_id, floor_num) VALUES ('LIVING QUARTERS', 2, 1);
+INSERT INTO floor(floor_name, building_id, floor_num) VALUES ('SUPPLIES', 3, 1);
+INSERT INTO floor(building_id, floor_num) VALUES (4, 2);
 
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM A", 2, 101);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM B", 2, 120);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM A", 3, 183);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM B", 3, 123);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM A", 4, 146);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM B", 4, 199);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM A", 5, 202);
-INSERT INTO room(room_name, floor_id, room_num) VALUES ("ROOM B", 5, 212);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM A', 11, 101);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM B', 11, 120);
 
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 1);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 1);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 1);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 2);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 2);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 2);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 3);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 3);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 3);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 4);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 4);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 4);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 5);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 5);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 5);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 6);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 6);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 6);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 7);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 7);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 7);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("CAPACITY", 8);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("MOTION", 8);
-INSERT INTO sensor(sensor_type, room_id) VALUES ("SMOKE", 8);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM A', 2, 183);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM B', 2, 123);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM A', 3, 146);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM B', 3, 199);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM A', 4, 202);
+INSERT INTO room(room_name, floor_id, room_num) VALUES ('ROOM B', 4, 212);
 
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (1, '2017/01/08', '8:44:23', 3);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (1, '2017/01/08', '11:41:53', 4);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (2, '2017/01/08', '8:44:23', 1);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (2, '2017/01/08', '11:41:53', 0);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (3, '2017/01/08', '8:44:23', 0);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (3, '2017/01/08', '11:41:53', 0);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (4, '2017/01/08', '8:44:23', 2);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (4, '2017/01/08', '11:41:53', 7);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (5, '2017/01/08', '8:44:23', 1);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (5, '2017/01/08', '11:41:53', 1);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (6, '2017/01/08', '8:44:23', 1);
-INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (6, '2017/01/08', '11:41:53', 1);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 25, 101);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 25, 102);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 25, 103);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 26, 104);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 26, 105);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 26, 106);
+
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 3, 107);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 3, 108);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 3, 109);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 4, 110);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 4, 111);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 4, 112);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 5, 113);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 5, 114);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 5, 115);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 6, 116);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 6, 117);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 6, 118);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 7, 119);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 7, 120);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 7, 121);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('CAPACITY', 8, 122);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('MOTION', 8, 123);
+INSERT INTO sensor(sensor_type, room_id, sensor_name) VALUES ('SMOKE', 8, 124);
+
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (49, '2017/01/08', '8:44:23', 3);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (49, '2017/01/08', '11:41:53', 4);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (50, '2017/01/08', '8:44:23', 1);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (50, '2017/01/08', '11:41:53', 0);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (51, '2017/01/08', '8:44:23', 0);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (51, '2017/01/08', '11:41:53', 0);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (52, '2017/01/08', '8:44:23', 2);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (52, '2017/01/08', '11:41:53', 7);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (53, '2017/01/08', '8:44:23', 1);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (53, '2017/01/08', '11:41:53', 1);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (54, '2017/01/08', '8:44:23', 1);
+INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (54, '2017/01/08', '11:41:53', 1);
 INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (7, '2017/01/08', '8:44:23', 2);
 INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (7, '2017/01/08', '11:41:53', 2);
 INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES (8, '2017/01/08', '8:44:23', 0);

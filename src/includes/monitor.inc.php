@@ -30,7 +30,7 @@ function displayData($conn, $uid) {
     $result = sqlChecker($sql, $conn);
     if($result != false) {
         while ($row = mysqli_fetch_array($result)){
-            $building[$row[building_id]] = $row[building_name];
+            $building[$row['building_id']] = $row['building_name'];
         }
     } else {
         echo "Something went wrong with Buildings!";
@@ -47,9 +47,9 @@ function displayData($conn, $uid) {
         $result = sqlChecker($sql, $conn);
         if($result != false) {
             while ($row = mysqli_fetch_array($result)){
-                $floor[$row[floor_id]] = array(
-                    $row[floor_name],
-                    $row[floor_num]);                    
+                $floor[$row['floor_id']] = array(
+                    $row['floor_name'],
+                    $row['floor_num']);                    
                     
             }
         } else {
@@ -64,9 +64,9 @@ function displayData($conn, $uid) {
             $result = sqlChecker($sql, $conn);
             if($result != false) {
                 while ($row = mysqli_fetch_array($result)){
-                    $room[$row[room_id]] = array (
-                        $row[room_name],
-                        $row[room_num]);
+                    $room[$row['room_id']] = array (
+                        $row['room_name'],
+                        $row['room_num']);
                 }
             } else {
                 echo "Something went wrong with Rooms!";
@@ -98,7 +98,7 @@ function displayData($conn, $uid) {
                 $result = sqlChecker($sql, $conn);
                 if($result != false) {
                     while ($row = mysqli_fetch_array($result)){
-                        $sensor[$row[sensor_id]] = $row[sensor_type];
+                        $sensor[$row['sensor_id']] = $row['sensor_type'];
                     }
                 } else {
                     echo "Something went wrong with Sensors!";
@@ -106,17 +106,17 @@ function displayData($conn, $uid) {
                 //GET READING INFORMATION PER SENSOR
                 foreach($sensor as $skey => $svalue) {
                     $reading = array();
-
-                    $sql = "SELECT sensor_id, reading_value, MAX(reading_date) AS reading_date, MAX(reading_time) AS reading_time from reading WHERE sensor_id=$skey;";
+                    
+                    $sql = "SELECT sensor_name, reading_value, MAX(reading_date) AS reading_date, MAX(reading_time) AS reading_time from reading, sensor S WHERE S.sensor_id=$skey;";
                     $result = sqlChecker($sql, $conn);
                     if($result != false) {
                         //Stores each reading as list to sensor_id
                         while ($row = mysqli_fetch_array($result)){
                             $reading[$svalue] = array(
-                                $row[sensor_id],
-                                $row[reading_value],
-                                $row[reading_date],
-                                $row[reading_time]);
+                                $row['sensor_name'],
+                                $row['reading_value'],
+                                $row['reading_date'],
+                                $row['reading_time']);
                         }
                     } else {
                         echo "Something went wrong with readings sensor values<br>";
