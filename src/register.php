@@ -20,6 +20,7 @@
 	       <input class="form-control search-query d-flex" name="fname" type="text" placeholder="Firstname">
 	       <input class="form-control search-query d-flex" name="lname" type="text" placeholder="Lastname">
 	       <input class="form-control search-query d-flex" name="email" type="text" placeholder="E-mail">
+	       <input class="form-control search-query d-flex" name="zipcode" type="text" placeholder="Zipcode">       
 	       <input class="form-control search-query d-flex" name="uname" type="text" placeholder="Username">
 	       <input class="form-control search-query d-flex" name="pwd1" type="password" placeholder="Password">
 	       <input class="form-control search-query d-flex" name="pwd2" type="password" placeholder="Verify Password">	       	             	       

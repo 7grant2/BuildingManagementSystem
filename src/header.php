@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+
+
   ?>
 
 <!DOCTYPE html>
@@ -19,7 +22,7 @@ session_start();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
 	  </button>
-	  <a class="navbar-brand" href="#"><img class="img-responsive imgfit " src="img/bms.png"/></a>
+	  <a class="navbar-brand" href="index.php"><img class="img-responsive imgfit " src="img/bms.png"/></a>
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
@@ -29,7 +32,20 @@ session_start();
 	    <?php
     if (!isset($_SESSION['u_id'])) {
     } else {
-              echo "<li><a href='monitor.php'>Monitor</a></li>";        
+              echo "<li><a href='monitor.php'>Monitor</a></li>";
+              if ($_SESSION['sa'] == 1) {
+                  echo "<li><a href='building.php'>Buildings</a></li>";
+              }
+              if ($_SESSION['sa'] == 1 || $_SESSION['admin'] == 1) {
+                 echo "<li><a href='floor.php'>Floors</a></li>";
+                 echo "<li><a href='room.php'>Rooms</a></li>";
+                 echo "<li><a href='sensor.php'>Sensors</a></li>";
+                 echo "<li><a href='newuser.php'>New User</a></li>"; 
+
+              }
+              if ($_SESSION['sa'] == 1) {
+                  echo "<li><a href='deleteuser.php'>Delete User</a></li>";
+              }              
     }
 	      ?>
 			

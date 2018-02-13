@@ -24,26 +24,30 @@ function sqlChecker($sql, $conn)
 //Collumn Names: S Name, S ID, Value, Date, Time
 function displayData($conn, $uid) {
     //id=>name information
-    $building  = array();
+    $building  = $_SESSION['buildings'];
     //Get Buildings
-    $sql = "SELECT * FROM building WHERE user_id='$uid'; ";
-    $result = sqlChecker($sql, $conn);
-    if($result != false) {
-        while ($row = mysqli_fetch_array($result)){
-            $building[$row['building_id']] = $row['building_name'];
-        }
-    } else {
-        echo "Something went wrong with Buildings!";
-    }
-
     //New div per building
     foreach ($building as $bkey => $bvalue) {
         $floor = array();
-        echo "<div class='jumbotron col-sm-10 col-sm-offset-1'>";
-        echo "<div class='center-text col-sm-10 col-sm-offset-1 fancy-c'>";
-        echo " <h2 class=''>$bvalue</h2>";
+        $address = array();
+        
+        $sql = "SELECT building_name FROM building WHERE building_id=$bvalue;";
+        $result = sqlChecker($sql,$conn);
+        $row = mysqli_fetch_assoc($result);
+        $bname = $row['building_name'];
+
+        $sql = "SELECT address_street, address_city, address_state, address_zip FROM address WHERE building_id=$bvalue;";
+        $result = sqlChecker($sql,$conn);
+        $row = mysqli_fetch_assoc($result);
+        $address = array($row['address_street'], $row['address_city'], $row['address_state'], $row['address_zip']);
+
+        echo "<div class='container fancy-c  col-m-10 col-m-offset-1 col-lg-8 text-center col-lg-offset-2'>";
+        echo "<h2 class=''>$bname</h2>";
+        echo "<p>$address[0], $address[1], $address[2], $address[3]</p> ";
+        echo "<div class='col-sm-10 text-center jumbotron col-sm-offset-1'>";        
+
         //GET FLOORS
-        $sql = "SELECT * FROM floor WHERE building_id=$bkey;";
+        $sql = "SELECT * FROM floor WHERE building_id=$bvalue;";
         $result = sqlChecker($sql, $conn);
         if($result != false) {
             while ($row = mysqli_fetch_array($result)){
@@ -53,11 +57,18 @@ function displayData($conn, $uid) {
                     
             }
         } else {
-            echo "Something went wrong Floors!";
+            echo "There are no floors...<br>";
         }
         
         //GET FLOOR THEN ROOM
         foreach ($floor as $fkey => $fvalue) {
+            //SET FLOOR TO NAME OR FLOOR NUMBER
+            if($fvalue[0] != "") {$floorprint = $fvalue[0];}
+            else {$floorprint = $fvalue[1];}
+            echo "<div class='floor-wrapper container'>";
+            echo "<h3>$floorprint</h3>";            
+            echo "<div class='text-left col-md-10 col-md-offset-1'>";
+
             //GET ROOMS
             $room = array();
             $sql = "SELECT * FROM room WHERE floor_id=$fkey;";
@@ -69,18 +80,19 @@ function displayData($conn, $uid) {
                         $row['room_num']);
                 }
             } else {
-                echo "Something went wrong with Rooms!";
+                echo "<p>No rooms on this floor<br></p>";
             }
-            //SET FLOOR TO NAME OR FLOOR NUMBER
-            if($fvalue[0] != "") {$floorprint = $fvalue[0];}
-            else {$floorprint = $fvalue[1];}
+
             //CREATE TABLE FOR EACH FLOOR PER ROOM
             foreach ($room as $rkey => $rvalue) {
                 //SET ROOM TO NAME OR ROOM NUMBER
                 if($rvalue[0] != "") {$roomprint = $rvalue[0];}
                 else {$roomprint = $rvalue[1];}                
                 if($rvalue == "") {$rvalue = $rkey;}
-                    echo "<div class='panel-heading'>Floor: $floorprint<br>Room: $roomprint</div>";
+                //Init flag of smoke to 0;
+                $sflag = 0;                
+                echo "<div class='room-wrapper'>";
+                echo "<div class='panel-heading'>Room: $roomprint</div>";
                 echo "<table class='table'>";
                 echo"
                 <thead>
@@ -106,8 +118,7 @@ function displayData($conn, $uid) {
                 //GET READING INFORMATION PER SENSOR
                 foreach($sensor as $skey => $svalue) {
                     $reading = array();
-                    
-                    $sql = "SELECT sensor_name, reading_value, MAX(reading_date) AS reading_date, MAX(reading_time) AS reading_time from reading, sensor S WHERE S.sensor_id=$skey;";
+                    $sql = "SELECT sensor_name, reading_value, MAX(reading_date) AS reading_date, MAX(reading_time) AS reading_time from reading R, sensor S WHERE S.sensor_id=$skey AND R.sensor_id=$skey;";
                     $result = sqlChecker($sql, $conn);
                     if($result != false) {
                         //Stores each reading as list to sensor_id
@@ -123,28 +134,41 @@ function displayData($conn, $uid) {
                     }
                     echo "<tbody>";
                     //LOOP THROUGH EACH SENSOR WITH READING VALUES FOR TABLE
+                    if ($reading['SMOKE'][1] > 0) $sflag = 1;
                     foreach ($reading as $rkey => $rval){
-                        echo "<tr>";
-                        echo "<th scope='row'>$rkey</th>";
+
+                        if($rkey == "SMOKE" && $sflag == 1) {
+                            echo "<tr class='em-wrapper'>";
+                            echo "<th scope='row'>$rkey</th>";
                             foreach($rval as $key => $value){
                                 echo "<td>$value</td>";
                             }
-                        echo "</tr>";
-
+                            echo "</tr>";
+                        } else {
+                            echo "<tr>";
+                            echo "<th scope='row'>$rkey</th>";
+                            foreach($rval as $key => $value){
+                                echo "<td>$value</td>";
+                            }
+                            echo "</tr>";
+                        }
 
                     }
                     echo "</tbody>";
                 }            
                 echo "</table>";
+                echo "</div>";
             }
-
+            echo "</div>";
+            echo "</div>";
         }
-                    echo "</div>";
         echo "</div>";
         echo "</div>";
 
     }
- 
+    echo "</div>";
+    echo "</div>";        
+
 }
 
 //displayData(3);

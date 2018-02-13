@@ -61,7 +61,9 @@ body,html {
     border-radius: 0px;
 }
 
-
+.btn-set-width {
+    width: 130px;
+}
 
 .navbar-default .navbar-nav > li > a {
   color: #777;
@@ -128,4 +130,17 @@ body,html {
 
 .container{
  min-height:100%;
+}
+
+.floor-wrapper {
+    background-color: #32303b;
+    border-color: black;
+    border: black;
+}
+
+.room-wrapper {
+    background-color: #42404b;
+}
+.em-wrapper {
+    background-color: #bf4040;
 }

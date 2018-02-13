@@ -1,11 +1,15 @@
 
 <?php
+          
 include_once 'header.php';
 
 ?>
 
 <?php
-    if (!isset($_SESSION['u_id'])) {
+
+
+
+if(!isset($_SESSION['u_id'])){
    echo "<div class='container text-center'>
   <div class='col-xs-12 col-sm-12'>
     <h1 >Building Management System</h1>
@@ -34,10 +38,19 @@ include_once 'header.php';
 </div>";
   } else {
    echo "
-    <div class='jumbotron'>
+    <div class='jumbotron container'>
       <div class='row text-center fancy-h'>
 	  <h1>Dashboard</h1>
-      <p>INSERT BASIC STATISTICS HERE</p>
+
+        <div class='col-sm-10 text-center floor-wrapper jumbotron col-sm-offset-1'>
+         <h2><a class='nav' href='monitor.php'>Monitor</a></h2>    
+        </div>
+        <div class='col-sm-10 text-center floor-wrapper jumbotron col-sm-offset-1'>
+         <h2><a href='settings.php'>Change Settings</a></h2>    
+        </div>
+        <div class='col-sm-10 text-center floor-wrapper jumbotron col-sm-offset-1'>
+         <h2><a href='logout.inc.php'>Logout</a></h2>    
+        </div>
 	  </div>
     </div>
 ";

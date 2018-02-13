@@ -1,7 +1,6 @@
 <?php
 
 //returns true if rows > 0
-
 //Check if user has clicked submit button
 if (isset($_POST['submit'])) {
      
@@ -25,16 +24,18 @@ if (isset($_POST['submit'])) {
   $uname = mysqli_real_escape_string($conn, $_POST['uname']);
   $pwd1 = mysqli_real_escape_string($conn, $_POST['pwd1']);
   $pwd2 = mysqli_real_escape_string($conn, $_POST['pwd2']);
+  $zip = mysqli_real_escape_string($conn, $_POST['zipcode']);
 
   //Error handlers
   //Check for empty fields
 
-  if (empty($fname) || empty($uname) || empty($lname) || empty($email) || empty($pwd1)  || empty($pwd2)) {
+
+  if (empty($fname) || empty($uname) || empty($lname) || empty($email) || empty($pwd1)  || empty($pwd2) || empty($zip)) {
      header("Location: ../register.php?register=empty");
       exit();
   } else {
       //Check if input characters are valid
-      if (!preg_match("/^[a-zA-Z]*$/", $fname) || !preg_match("/^[a-zA-Z]*$/", $lname) ) {
+      if (!preg_match("/^[a-zA-Z]*$/", $fname) || !preg_match("/^[a-zA-Z]*$/", $lname) || preg_match("/^[a-zA-Z]*$/", $zip)) {
           header("Location: ../register.php?register=invalid");
           exit();
       } else {
@@ -62,12 +63,16 @@ if (isset($_POST['submit'])) {
                       }  else {
                       //Hashing the password
                       $hashedPwd = password_hash($pwd1, PASSWORD_BCRYPT, array('cost' => 12));                      
-                      //Insert the user into the database
-                      $sql = "INSERT INTO `users`(`user_fname`, `user_lname`, `user_email`, `user_uname`, `user_pwd`) VALUES ('$fname', '$lname', '$email', '$uname', '$hashedPwd'); ";
-                      
+                      //Insert the user into the database AND set permission
+                      $sql = "INSERT INTO `users`(`user_fname`, `user_lname`, `user_email`, `user_uname`, `user_pwd`, `user_zip`) VALUES ('$fname', '$lname', '$email', '$uname', '$hashedPwd', '$zip'); ";
+                      $result = mysqli_query($conn, $sql);
+                      $sql ="SELECT user_id FROM users WHERE user_uname='$uname'; ";
+                      $result = mysqli_query($conn, $sql);
+                      $row = mysqli_fetch_row($result);
+                      $sql ="INSERT INTO permission (user_id) VALUES ('$row[0]'); ";
                       $result = mysqli_query($conn, $sql);
                       header("Location: ../login.php");
-                      //exit();
+                      exit();
                       }
                   }
               }

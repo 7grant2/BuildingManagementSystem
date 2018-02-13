@@ -35,8 +35,55 @@ function pushData($conn, $sid, $date, $time, $metric) {
         } else {
             return false;
         }
+}
 
-
+function alertUser($conn, $user, $sname) {
+    //Get user email and zip code to get all EMS nearby.
+    $sql = "SELECT floor_num, floor_name, building_name, address_street, address_city, address_state, address_zip, room_name, room_num
+FROM sensor S
+INNER JOIN room R on R.room_id = S.room_id
+INNER JOIN floor F on F.floor_id = R.floor_id
+INNER JOIN building B on B.building_id = F.building_id
+INNER JOIN address A on A.building_id = B.building_id
+WHERE S.sensor_name = $sname;
+";
+    $result = mysqli_query($conn,  $sql);
+    $row = mysqli_fetch_assoc($result);
+    
+    $ms = 'SMOKE ALERT' . "\n"
+        . 'Building: ' . $row['building_name'] .  "\n"
+        . 'Address: ' . $row['address_street'] . " " . $row['address_city'] . "\n"
+        . $row['address_state'] . " " . $row['address_zip'] .  "\n"        
+        . 'Floor Name: ' . $row['floor_name'] . "\n"
+        . 'Floor Number: ' . $row['floor_num'] . "\n"        
+        . 'Room Name: ' . $row['room_name'] . "\n"
+        . 'Room Number: ' . $row['room_'] . "\n";
+    
+    $emails = array();
+    $sql = "SELECT user_email, user_zip FROM users WHERE user_uname='$user';";
+    $result = mysqli_query($conn,  $sql);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck == 0) {
+        return false;
+    } else {
+        $row = mysqli_fetch_array($result);
+        array_push($emails, $row['user_email']);        
+        $zip = $row['user_zip'];
+        $sql = "SELECT user_email FROM user WHERE user_zip='$user';";
+        $result = mysqli_query($conn,  $sql);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck == 0) {
+            return false;
+        } else {
+            while ($row = mysqli_fetch_assoc($result)) {
+                array_push($emails, $row['user_email'])
+            }
+            //SEND EMAIL TO ALL USERS
+            foreach ($emails as $ekey => $eval) {
+                mail($eval, 'SMOKE ALERT', $msg);
+            }
+        }
+    }    
 }
 
 if($reqmethod == "GET") {
@@ -86,6 +133,12 @@ if($reqmethod == "GET") {
                         if($sid) {
                                 if(pushData($conn, $sid[0], $date, $time, $metric)){
                                     echo "success";
+
+                                    //E-MAIL ALERT SYSTEM FOR SMOKE
+                                    if($sname == "SMOKE" && $metric > 0 ) {
+                                        alertUser($conn, $uid, $sname);   
+                                    }
+                                    
                                     http_response_code(200);
                                     exit();
                                 } else {
