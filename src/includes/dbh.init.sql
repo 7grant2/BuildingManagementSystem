@@ -1,7 +1,7 @@
 
-CREATE DATABASE bms1;
+CREATE DATABASE bms;
 
-USE bms1;
+USE bms;
 
 CREATE TABLE users (
        user_id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,

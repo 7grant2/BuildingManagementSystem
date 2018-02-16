@@ -40,7 +40,7 @@ if(!isset($_SESSION['u_id'])){
 
             }
             else if (isset($_POST['del-bname-s'])){
-                $s = mysqli_real_escape_string($conn, $_POST['add-bname-s']);    
+                $s = mysqli_real_escape_string($conn, $_POST['del-bname-s']);    
                 $sql="DELETE FROM building WHERE building_id='$s';";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {

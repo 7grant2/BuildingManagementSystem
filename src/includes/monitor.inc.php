@@ -113,7 +113,7 @@ function displayData($conn, $uid) {
                         $sensor[$row['sensor_id']] = $row['sensor_type'];
                     }
                 } else {
-                    echo "Something went wrong with Sensors!";
+                    echo "<p>There are no Sensors in this room.<p>";
                 }
                 //GET READING INFORMATION PER SENSOR
                 foreach($sensor as $skey => $svalue) {

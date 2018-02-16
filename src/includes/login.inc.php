@@ -12,14 +12,16 @@ if (isset($_POST['submit'])) {
     //Error handlers
     //Check if inputs are empty
     if (empty($uid) || empty($pwd)) {
-        header("Location: ../index.php?login=empty");
+        echo "empty";
+        exit();
+        header("Location: ../login.php?login=empty");
     } else {
         //Does user exist in DB
         $sql = "SELECT * FROM `users` WHERE user_uname='$uid' ";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck < 1) {
-            header("Location: ../index.php?login=error");
+            header("Location: ../login.php?login=error");
         } else {
             //take data from db and insert it into an array $row
             if ($row = mysqli_fetch_assoc($result)) {
@@ -28,7 +30,7 @@ if (isset($_POST['submit'])) {
                 $hashedPwd = $row['user_pwd'];
                 $hashedPwdCheck = password_verify($pwd, $row['user_pwd']);
                 if ($hashedPwdCheck == false) {
-                    header("Location: ../index.php?login=error");
+                    header("Location: ../login.php?login=error");
                     exit();
                 } else {
                     //Log in the user here
@@ -38,7 +40,7 @@ if (isset($_POST['submit'])) {
                     $sql = "SELECT permission_sa, permission_ems, permission_admin FROM permission WHERE user_id =$user_id;";
                     $result = mysqli_query($conn, $sql);
                     if ($resultCheck != 1) {
-                        header("Location: ../index.php?login=error");
+                        header("Location: ../login.php?login=error");
                     } else {
                         $perm =  mysqli_fetch_assoc($result);
                         //Get all building ID's associated to the user and set them to session var.
@@ -79,7 +81,7 @@ if (isset($_POST['submit'])) {
         }
     }
 } else {
-    header("Location: ../index.php?login=error");
+    header("Location: ../login.php?login=error");
     exit();
 }
 
