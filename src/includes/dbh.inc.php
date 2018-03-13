@@ -10,19 +10,13 @@ bms bms
 bmssec bmssec
 random random
 ems ems
-
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "root";
-$dbName = "bms";
-$port = 8889;
 */
 
 $dbServername = "localhost";
 $dbUsername = "root";
 $dbPassword = "root";
 $dbName = "bms";
-$port = 8888;
+//$port = 8888;
 
 $conn = mysqli_connect($dbServername,$dbUsername, $dbPassword, $dbName);
 if(!$conn){

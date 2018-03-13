@@ -3,6 +3,10 @@ CREATE DATABASE bms;
 
 USE bms;
 
+
+DELETE * FROM DATABASE glanham2015
+USE glanham2015
+
 CREATE TABLE users (
        user_id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
        user_fname  varchar(60) NOT NULL,
