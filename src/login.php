@@ -1,8 +1,6 @@
 <?php
-    //file:///Users/glanham/Documents/CurrentProjects/BuildingManagementSystem/build/index.html
-?>
-<?php
   include_once 'header.php';
+  $login  = (isset($_GET['query_age']) ? $_GET['query_age'] : null);
 ?>
 
     <div class="jumbotron">
@@ -25,25 +23,20 @@
 	     <div class="text-center">
 		 <a href="register.php">Register</a> - 
 		 <a href="#">Forgot Password</a>
-
-
-	     </div>
-
-
-    
-	   </div>
+	     </div> 
         <?php    
-    if($_GET['login']=="failure" ||$_GET['login']=="empty"  ){
+    if($login == "error" || $login == "empty"){
 echo "
-<div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
-<div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 alert alert-danger'>
+<div class='alert alert-danger'>
   <strong>Login Failed </strong>
 </div>
 </div>
 ";
     }
 ?>          
-      </div>
+ 
+	   </div>
+     </div>
   
     </div>
     

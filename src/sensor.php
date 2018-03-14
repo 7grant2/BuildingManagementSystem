@@ -1,5 +1,5 @@
 <?php
-session_start();
+$ret = (isset($_GET['ret']) ? $_GET['ret'] : null);
 include_once 'header.php';
 if (isset($_SESSION['u_id'])) {
     include 'includes/dbh.inc.php';
@@ -11,10 +11,11 @@ if (isset($_SESSION['u_id'])) {
     } else {
         $list = array();
         $room = array();
-   if($_SESSION['sa']==1) {
-            $sql = "SELECT R.room_name, R.room_id, F.floor_id, F.floor_name, B.building_name, B.building_id, sensor_id, sensor_name FROM sensor S
-INNER JOIN Room R on R.room_id = S.room_id
-INNER JOIN Floor F on F.floor_id = R.floor_id
+	$building = array();
+   	if($_SESSION['sa']==1) {
+            $sql = "SELECT R.room_name, R.room_id, F.floor_num, F.floor_id, F.floor_name, B.building_name, B.building_id, sensor_id, sensor_name FROM sensor S
+INNER JOIN room R on R.room_id = S.room_id
+INNER JOIN floor F on F.floor_id = R.floor_id
 INNER JOIN building B on B.building_id = F.building_id;";            
             $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc($result)){
@@ -28,8 +29,8 @@ INNER JOIN building B on B.building_id = F.building_id;";
         } else {
             $uid=$_SESSION['u_id'];
             $sql = "SELECT R.room_name, R.room_id, F.floor_id, F.floor_name, B.building_name, F.building_id, sensor_id, sensor_name FROM sensor S
-INNER JOIN Room R on S.room_id = R.room_id
-INNER JOIN Floor F on F.floor_id = R.floor_id
+INNER JOIN room R on S.room_id = R.room_id
+INNER JOIN floor F on F.floor_id = R.floor_id
 INNER JOIN building B on B.building_id = F.building_id
 INNER JOIN users_building UB on B.building_id = UB.building_id
 INNER JOIN users U ON UB.user_id = U.user_id
@@ -45,7 +46,7 @@ WHERE UB.user_id ='$uid';";
         foreach($building as $bk => $bv) {
             $arr = array();
             $farr = array();
-            $sql = "SELECT B.building_name, F.floor_name, R.room_name,R.room_num, sensor_type, sensor_id, sensor_name FROM sensor S
+            $sql = "SELECT B.building_name, F.floor_name, R.room_id, R.room_name,R.room_num, sensor_type, sensor_id, sensor_name FROM sensor S
 INNER JOIN room R on R.room_id = S.room_id
 INNER JOIN floor F on F.floor_id = R.floor_id
 INNER JOIN building B on B.building_id = F.building_id
@@ -148,14 +149,14 @@ foreach($list as $k => $v) {
       </div>
     </div>
         <?php
-    if($_GET['ret']=="success"){
+    if($ret=="success"){
         echo "
 <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='alert alert-success'>
   <strong>Success</strong>
 </div>
 </div>";
-    } else if ($_GET['ret']=="failure") {
+    } else if ($ret=="failure") {
 echo "
 <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 alert alert-danger'>

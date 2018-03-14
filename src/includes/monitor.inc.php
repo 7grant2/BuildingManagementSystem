@@ -1,6 +1,5 @@
 
 <?php
-session_start();
 //Check sql if data is in table
 function sqlChecker($sql, $conn)
 {
@@ -41,7 +40,7 @@ function displayData($conn, $uid) {
         $row = mysqli_fetch_assoc($result);
         $address = array($row['address_street'], $row['address_city'], $row['address_state'], $row['address_zip']);
 
-        echo "<div class='container fancy-c  col-m-10 col-m-offset-1 col-lg-8 text-center col-lg-offset-2'>";
+        echo "<div class=' fancy-c  col-m-10 col-m-offset-1 col-lg-8 text-center col-lg-offset-2'>";
         echo "<h2 class=''>$bname</h2>";
         echo "<p>$address[0], $address[1], $address[2], $address[3]</p> ";
         echo "<div class='col-sm-10 text-center jumbotron col-sm-offset-1'>";        
@@ -134,10 +133,9 @@ function displayData($conn, $uid) {
                     }
                     echo "<tbody>";
                     //LOOP THROUGH EACH SENSOR WITH READING VALUES FOR TABLE
-                    if ($reading['SMOKE'][1] > 0) $sflag = 1;
+		    
                     foreach ($reading as $rkey => $rval){
-
-                        if($rkey == "SMOKE" && $sflag == 1) {
+                        if($rkey == "SMOKE" && $rval[1] >= 1) {
                             echo "<tr class='em-wrapper'>";
                             echo "<th scope='row'>$rkey</th>";
                             foreach($rval as $key => $value){

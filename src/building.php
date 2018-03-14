@@ -1,6 +1,6 @@
 <?php
-session_start();
 include_once 'header.php';
+$get = (isset($_GET['ret']) ? $_GET['ret'] : null); 
 if (isset($_SESSION['u_id'])) {
     include 'includes/dbh.inc.php';
     $sa = $_SESSION['sa'];
@@ -85,14 +85,14 @@ echo "<div class='text-left radio'><input type='radio' name='del-bname-s' value=
       </div>
     </div>
         <?php
-    if($_GET['ret']=="success"){
+    if($get=="success"){
         echo "
         <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='alert alert-success'>
 <strong>Success</strong>
 </div>
 </div>";
-    } else if ($_GET['ret']=="failure") {
+    } else if ($get == "failure") {
 echo "
     <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 alert alert-danger'>

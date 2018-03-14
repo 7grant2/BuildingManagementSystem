@@ -1,5 +1,6 @@
 <?php
-session_start();
+
+$ret = (isset($_GET['ret']) ? $_GET['ret'] : null);
 include_once 'header.php';
 if (isset($_SESSION['u_id'])) {
     include 'includes/dbh.inc.php';
@@ -130,14 +131,14 @@ foreach($list as $k => $v) {
       </div>
     </div>
         <?php
-    if($_GET['ret']=="success"){
+    if($ret=="success"){
         echo "
 <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='alert alert-success'>
   <strong>Success</strong>
 </div>
 </div>";
-    } else if ($_GET['ret']=="failure") {
+    } else if ($ret=="failure") {
 echo "
 <div  id='notif' class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
 <div class='col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 alert alert-danger'>

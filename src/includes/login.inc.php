@@ -12,9 +12,8 @@ if (isset($_POST['submit'])) {
     //Error handlers
     //Check if inputs are empty
     if (empty($uid) || empty($pwd)) {
-        echo "empty";
-        exit();
         header("Location: ../login.php?login=empty");
+ 	exit();
     } else {
         //Does user exist in DB
         $sql = "SELECT * FROM `users` WHERE user_uname='$uid' ";

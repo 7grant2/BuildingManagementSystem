@@ -1,9 +1,10 @@
 <?php
 /*
-$dbhost = 'localhost';  // Most likely will not need to be changed
-$dbname = 'glanham2015';   // Needs to be changed to your designated table database name
-$dbuser = 'glanham2015';   // Needs to be changed to reflect your LAMP server credentials
-$dbpass = 'hbnuAQ8+o7'; // Needs to be changed to reflect your LAMP server credentials
+
+$dbServername = "localhost";
+$dbUsername = "root";
+$dbPassword = "root";
+$dbName = "bms";
 
 root root
 bms bms
@@ -12,11 +13,12 @@ random random
 ems ems
 */
 
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "root";
-$dbName = "bms";
 //$port = 8888;
+$dbServername = 'localhost';  // Most likely will not need to be changed
+$dbUsername = 'glanham2015';   // Needs to be changed to your designated table database name
+$dbName = 'glanham2015';   // Needs to be changed to reflect your LAMP server credentials
+$dbPassword = 'hbnuAQ8+o7'; // Needs to be changed to reflect your LAMP server credentials
+
 
 $conn = mysqli_connect($dbServername,$dbUsername, $dbPassword, $dbName);
 if(!$conn){
