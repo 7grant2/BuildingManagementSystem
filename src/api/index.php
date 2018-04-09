@@ -9,14 +9,16 @@ http://localhost:8889/BuildingManagementSystem/build/api/index.php?sensorname=10
 
 //ensure users can't push data that is not in their own user
 // will return sensor_id if successful
-function checkSensors($conn, $user, $sname) {    
+function checkSensors($conn, $user, $sname) {
     $sql = "SELECT sensor_id FROM sensor S
 INNER JOIN room R ON R.room_id = S.room_id
 INNER JOIN floor F ON F.floor_id = R.floor_id
 INNER JOIN building B ON B.building_id = F.building_id
-INNER JOIN users U ON B.user_id = U.user_id
+INNER JOIN users_building UB on UB.building_id = B.building_id
+INNER JOIN users U ON UB.user_id = U.user_id
 WHERE U.user_uname = '$user'
 AND S.sensor_name = '$sname';";
+    //echo "$sql";
     $result = mysqli_query($conn,  $sql);
     $resultCheck = mysqli_num_rows($result);
     if ($resultCheck == 1) {
@@ -27,7 +29,6 @@ AND S.sensor_name = '$sname';";
 }
 
 function pushData($conn, $sid, $date, $time, $metric) {
-
         $sql = "INSERT INTO reading(sensor_id, reading_date, reading_time, reading_value) VALUES ($sid, '$date', '$time', $metric);";
         $result = mysqli_query($conn, $sql);
         if($result) {
@@ -49,17 +50,18 @@ WHERE S.sensor_name = $sname;
 ";
     $result = mysqli_query($conn,  $sql);
     $row = mysqli_fetch_assoc($result);
-    
-    $ms = 'SMOKE ALERT' . "\n"
+    $user_zip = $row['address_zip']; 
+    $msg = 'SMOKE ALERT' . "\n"
         . 'Building: ' . $row['building_name'] .  "\n"
         . 'Address: ' . $row['address_street'] . " " . $row['address_city'] . "\n"
         . $row['address_state'] . " " . $row['address_zip'] .  "\n"        
         . 'Floor Name: ' . $row['floor_name'] . "\n"
         . 'Floor Number: ' . $row['floor_num'] . "\n"        
         . 'Room Name: ' . $row['room_name'] . "\n"
-        . 'Room Number: ' . $row['room_'] . "\n";
-    
+        . 'Room Number: ' . $row['room_num'] . "\n";
+    $msg = wordwrap($msg,70);
     $emails = array();
+    //Select email of user pushing sensor
     $sql = "SELECT user_email, user_zip FROM users WHERE user_uname='$user';";
     $result = mysqli_query($conn,  $sql);
     $resultCheck = mysqli_num_rows($result);
@@ -69,18 +71,26 @@ WHERE S.sensor_name = $sname;
         $row = mysqli_fetch_array($result);
         array_push($emails, $row['user_email']);        
         $zip = $row['user_zip'];
-        $sql = "SELECT user_email FROM user WHERE user_zip='$user';";
+	//get ems users for this locations
+        $sql = "SELECT U.user_email FROM users U
+INNER JOIN permission P ON P.user_id = U.user_id
+WHERE U.user_zip = $user_zip
+AND P.permission_ems = 1;";
         $result = mysqli_query($conn,  $sql);
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck == 0) {
             return false;
         } else {
             while ($row = mysqli_fetch_assoc($result)) {
-                array_push($emails, $row['user_email'])
+                array_push($emails, $row['user_email']);
             }
             //SEND EMAIL TO ALL USERS
             foreach ($emails as $ekey => $eval) {
-                mail($eval, 'SMOKE ALERT', $msg);
+		try {
+                    mail($eval, 'SMOKE ALERT', $msg);
+		} catch (Exception $e) {
+		    echo "mail failed";
+		}
             }
         }
     }    
@@ -98,7 +108,6 @@ if($reqmethod == "GET") {
         $date = mysqli_real_escape_string($conn, $_REQUEST['date']);
         $time = mysqli_real_escape_string($conn, $_REQUEST['time']);
         $metric = mysqli_real_escape_string($conn, $_REQUEST['metric']);
-        
         //Error handlers
         //Check if inputs are empty
         if (empty($uid) || empty($pwd)) {
@@ -135,8 +144,11 @@ if($reqmethod == "GET") {
                                     echo "success";
 
                                     //E-MAIL ALERT SYSTEM FOR SMOKE
-                                    if($sname == "SMOKE" && $metric > 0 ) {
-                                        alertUser($conn, $uid, $sname);   
+				    $sql = "SELECT sensor_type FROM sensor WHERE sensor_name='$sname';";
+				    $result = mysqli_query($conn, $sql);
+ 				    $row = mysqli_fetch_row($result);
+                                    if($row[0] == "SMOKE" && $metric > 0 ) {
+					alertUser($conn, $uid, $sname);   
                                     }
                                     
                                     http_response_code(200);

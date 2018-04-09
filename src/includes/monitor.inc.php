@@ -32,6 +32,9 @@ function displayData($conn, $uid) {
         
         $sql = "SELECT building_name FROM building WHERE building_id=$bvalue;";
         $result = sqlChecker($sql,$conn);
+	if(!$result){
+	   break;
+	}
         $row = mysqli_fetch_assoc($result);
         $bname = $row['building_name'];
 
@@ -117,7 +120,7 @@ function displayData($conn, $uid) {
                 //GET READING INFORMATION PER SENSOR
                 foreach($sensor as $skey => $svalue) {
                     $reading = array();
-                    $sql = "SELECT sensor_name, reading_value, MAX(reading_date) AS reading_date, MAX(reading_time) AS reading_time from reading R, sensor S WHERE S.sensor_id=$skey AND R.sensor_id=$skey;";
+ 		    $sql = "SELECT sensor_name, reading_value, reading_date, reading_time from reading R, sensor S WHERE S.sensor_id=$skey AND R.sensor_id=$skey AND reading_date = (SELECT MAX(reading_date) from reading RR, sensor SS WHERE SS.sensor_id=$skey AND RR.sensor_id=$skey) AND reading_time = (SELECT MAX(reading_time) from reading R3, sensor S3 WHERE S3.sensor_id=$skey AND R3.sensor_id=$skey);"; 
                     $result = sqlChecker($sql, $conn);
                     if($result != false) {
                         //Stores each reading as list to sensor_id
@@ -129,11 +132,18 @@ function displayData($conn, $uid) {
                                 $row['reading_time']);
                         }
                     } else {
-                        echo "Something went wrong with readings sensor values<br>";
+                        //echo "Something went wrong with readings sensor values<br>";
+			$sql = "SELECT sensor_name FROM sensor S WHERE S.sensor_id=$skey;";
+			$result = sqlChecker($sql, $conn);
+			$row = mysqli_fetch_array($result);
+			$reading[$svalue] = array(
+				$row['sensor_name'],
+				"No Readings",
+				"",
+				""); 
                     }
                     echo "<tbody>";
                     //LOOP THROUGH EACH SENSOR WITH READING VALUES FOR TABLE
-		    
                     foreach ($reading as $rkey => $rval){
                         if($rkey == "SMOKE" && $rval[1] >= 1) {
                             echo "<tr class='em-wrapper'>";

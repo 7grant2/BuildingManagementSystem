@@ -10,6 +10,7 @@ if (isset($_SESSION['u_id'])) {
         exit();
     } else {
         $list = array();
+	$users = array();
         $building = array();
         $sql = "SELECT building_id, building_name FROM building;";
         $result = mysqli_query($conn, $sql);
@@ -17,7 +18,15 @@ if (isset($_SESSION['u_id'])) {
             $bn = $row['building_id'];
             $building[$bn]= $row['building_name'];
         }
-       
+	       
+   	$sql="SELECT U.user_id, U.user_lname, U.user_uname, permission_sa FROM users U
+INNER JOIN permission P on P.user_id = U.user_id
+WHERE permission_sa <> 1 
+AND permission_ems <> 1";
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $users[$row['user_id']] = array($row['user_uname'], $row['user_lname']);
+        }
     }
 } else {
         header("Location: index.php");
@@ -42,6 +51,14 @@ if (isset($_SESSION['u_id'])) {
       <div class="col-sm-6 col-sm-offset-3">
 	<form class="form-group" action="api/session.php" method="POST">
 	  <input class="form-control search-query d-flex" name="add-bname" type="text" placeholder="Building Name">
+<?php
+echo "<p>Building Association</p>";
+echo "<div class='text-left radio'><label><input type='radio' name='user-s' value='null'>None</label></div>";
+foreach($users as $k => $v) {
+echo "<div class='text-left radio'><label><input type='radio' name='user-s' value='$k'>$v[0], $v[1]</label></div>"; 
+}
+
+?>
 	  <input class="form-control search-query d-flex" name="b_pwd" type="password" placeholder="Password">    	             	       	    
 	  <button class="btn-info form-control d-flex" type="submit" name="submit">Submit</button>
 	</form>
@@ -62,8 +79,6 @@ echo "<div class='text-left radio'><label><input type='radio' name='mod-bname-s'
 	  <button class="btn-info form-control d-flex" type="submit" name="submit">Submit</button>
 	</form>
       </div>
-
-
     </div>
 
     <div id="del" class='col-sm-10 text-center jumbotron floor-wrapper col-sm-offset-1' style="display: none;">

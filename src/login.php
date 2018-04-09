@@ -1,6 +1,6 @@
 <?php
   include_once 'header.php';
-  $login  = (isset($_GET['query_age']) ? $_GET['query_age'] : null);
+  $login  = (isset($_GET['login']) ? $_GET['login'] : null);
 ?>
 
     <div class="jumbotron">

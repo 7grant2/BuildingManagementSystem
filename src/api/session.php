@@ -17,13 +17,26 @@ if(!isset($_SESSION['u_id'])){
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         if(password_verify($pwd, $row['user_pwd'])){
-            if(isset($_POST['add-bname'])){
+            if(isset($_POST['add-bname']) && isset($_POST['user-s'])){
                 $n = mysqli_real_escape_string($conn, $_POST['add-bname']);    
+                $u = mysqli_real_escape_string($conn, $_POST['user-s']);    
                 $sql="INSERT INTO building (building_name) VALUES ('$n');";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
-                    header("Location: ../building.php?ret=success");
-                } else {
+                    $sql =  "SET @uid = (SELECT user_id FROM permission WHERE permission_sa = 1);
+                    SET @bid = (SELECT building_id FROM building WHERE building_name ='$n');
+                    INSERT INTO users_building (building_id, user_id) VALUES (@bid, @uid); ";
+                    $result = mysqli_multi_query($conn, $sql);
+                    if ($result && $u !="null") {
+			$sql =  "SET @bid = (SELECT building_id FROM building WHERE building_name ='$n');
+                    	INSERT INTO users_building (building_id, user_id) VALUES (@bid, $u); ";
+                    	$result = mysqli_multi_query($conn, $sql);
+                        header("Location: ../building.php?ret=success");
+                    } else {
+                        header("Location: ../building.php?ret=success");
+                    }
+
+                } else {                    
                     header("Location: ../building.php?ret=failure");
                 }
             } 
@@ -162,7 +175,10 @@ if(!isset($_SESSION['u_id'])){
         $result = mysqli_query($conn,$sql);
         $row = mysqli_fetch_assoc($result);
         if(password_verify($pwd, $row['user_pwd'])){
-            if(isset($_POST['add-sname-s']) && isset($_POST['add-sname-n']) && isset($_POST['add-stype'])){
+	    echo $_POST['add-sname-s'];
+	    echo $_POST['add-sname-n'];
+	    echo $_POST['add-stype'];
+            if(isset($_POST['add-sname-s']) && isset($_POST['add-snum-n']) && isset($_POST['add-stype'])){
                 $s = mysqli_real_escape_string($conn, $_POST['add-sname-s']);
                 $q = mysqli_real_escape_string($conn, $_POST['add-snum-n']);                
                 $t = mysqli_real_escape_string($conn, $_POST['add-stype']);

@@ -19,9 +19,8 @@ $(document).ready(function() {
 	$("#del").show(200);
 	$("input[name*='pwd'").val("");
     });
-
-    
-    $("#notif").hide(5000);
+ 
+    $("#notif").fadeOut(2000);
 
 });
    

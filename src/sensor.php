@@ -14,7 +14,7 @@ if (isset($_SESSION['u_id'])) {
 	$building = array();
    	if($_SESSION['sa']==1) {
             $sql = "SELECT R.room_name, R.room_id, F.floor_num, F.floor_id, F.floor_name, B.building_name, B.building_id, sensor_id, sensor_name FROM sensor S
-INNER JOIN room R on R.room_id = S.room_id
+RIGHT JOIN room R on R.room_id = S.room_id
 INNER JOIN floor F on F.floor_id = R.floor_id
 INNER JOIN building B on B.building_id = F.building_id;";            
             $result = mysqli_query($conn, $sql);
@@ -22,14 +22,12 @@ INNER JOIN building B on B.building_id = F.building_id;";
                 $bid = $row['building_id'];                
                 $rid = $row['room_id'];     
                 $building[$bid] = $row['building_name'];
-                $room[$rid] = array($row['building_name'], $row['floor_name'], $row['floor_num'], $row['room_name']);
-                
-  
+                $room[$rid] = array($row['building_name'], $row['floor_name'], $row['floor_num'], $row['room_name']); 
             }
         } else {
             $uid=$_SESSION['u_id'];
-            $sql = "SELECT R.room_name, R.room_id, F.floor_id, F.floor_name, B.building_name, F.building_id, sensor_id, sensor_name FROM sensor S
-INNER JOIN room R on S.room_id = R.room_id
+            $sql = "SELECT R.room_name, R.room_id, F.floor_id, F.floor_num, F.floor_name, B.building_name, F.building_id, sensor_id, sensor_name FROM sensor S
+RIGHT JOIN room R on S.room_id = R.room_id
 INNER JOIN floor F on F.floor_id = R.floor_id
 INNER JOIN building B on B.building_id = F.building_id
 INNER JOIN users_building UB on B.building_id = UB.building_id
@@ -39,6 +37,7 @@ WHERE UB.user_id ='$uid';";
             while($row = mysqli_fetch_assoc($result)){
                 $bid = $row['building_id'];
                 $fid = $row['floor_id'];                
+                $rid = $row['room_id'];                
                 $building[$bid] = $row['building_name'];
                 $room[$rid] = array($row['building_name'], $row['floor_name'], $row['floor_num'], $row['room_name']);
             }
@@ -98,8 +97,9 @@ WHERE B.building_id='$bk';";
 <div class='text-left radio'><label><input type='radio' name='add-stype' value='SMOKE'>SMOKE</label></div>
 <div class='text-left radio'><label><input type='radio' name='add-stype' value='CAPACITY'>CAPACITY</label></div>
 <div class='text-left radio'><label><input type='radio' name='add-stype' value='MOTION'>MOTION</label></div>
-<div class='text-left radio'><label><input type='radio' name='add-stype' value='RFID'>RFID</label></div>        
 
+<div class='text-left radio'><label><input type='radio' name='add-stype' value='METAL'>METAL</label></div>        
+<div class='text-left radio'><label><input type='radio' name='add-stype' value='RFID'>RFID</label></div>        
 	  <input class="form-control search-query d-flex" name="s_pwd" type="password" placeholder="Password">    	             	       	    
 	  <button class="btn-info form-control d-flex" type="submit" name="submit">Submit</button>
 	</form>

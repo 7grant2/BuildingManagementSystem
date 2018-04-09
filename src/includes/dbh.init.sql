@@ -100,6 +100,12 @@ INSERT INTO address VALUES (1, '777 Glades Road', 'Boca Raton', 'FL', '33431');
 INSERT INTO address VALUES (2, '321 Fake Street', 'Boca Raton', 'FL', '33431');
 INSERT INTO address VALUES (3, '3093 20th Drive', 'Boca Raton', 'FL', '33431');
 
+
+
+INSERT INTO users_building(building_id, user_id) VALUES (1, 1);
+INSERT INTO users_building(building_id, user_id) VALUES (2, 1);
+INSERT INTO users_building(building_id, user_id) VALUES (3, 1);
+
 INSERT INTO users_building(building_id, user_id) VALUES (2, 2);
 INSERT INTO users_building(building_id, user_id) VALUES (2, 3);
 INSERT INTO users_building(building_id, user_id) VALUES (1, 4);

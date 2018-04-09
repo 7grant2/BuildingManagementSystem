@@ -1,10 +1,10 @@
 <?php
 /*
-
 $dbServername = "localhost";
 $dbUsername = "root";
 $dbPassword = "root";
 $dbName = "bms";
+
 
 root root
 bms bms
