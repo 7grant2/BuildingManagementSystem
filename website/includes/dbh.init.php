@@ -2,9 +2,9 @@
 // asdf / asdf /   glanham2015@gmail.com
 // CHANGE ID FOR INSERT STATEMENTS UPON REVIEW
 $dbhost = 'localhost';  // Most likely will not need to be changed
-$dbname = 'glanham2015';   // Needs to be changed to your designated table database name
-$dbuser = 'glanham2015';   // Needs to be changed to reflect your LAMP server credentials
-$dbpass = 'hbnuAQ8+o7'; // Needs to be changed to reflect your LAMP server credentials
+$dbname = '';   // Needs to be changed to your designated table database name
+$dbuser = '';   // Needs to be changed to reflect your LAMP server credentials
+$dbpass = ''; // Needs to be changed to reflect your LAMP server credentials
 
 
 
